@@ -1,1 +1,10 @@
 /lists_test
+/search_engine/*
+!/search_engine/src
+/oxford
+/paris
+/ranks
+/ranks_oxford
+/server
+/documentation/*
+!/documentation/data
