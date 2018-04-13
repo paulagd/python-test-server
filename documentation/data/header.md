@@ -4,16 +4,18 @@ This repository has been built just as an example to make it easy to plug in a n
 All the functions are free to change and all the code can be adapted and reused in order to
 plug in a new system.
 
+> The full code of the CBIR used is available in https://github.com/imatge-upc/salbow.
+
 ### How needs the project to be structured?
 
-* The project provides a python server that allows to merge your code with the whole project.
+The project provides a python server that allows to merge your code with the whole project.
 To do that, a `main server` file is created and it will be the one which connects your code with
 the `nodejs` server.
 
   1. Install the `zerorpc` library.
 
       ```
-        pip install zerorpc
+      pip install zerorpc
       ```
 
       > Install also the other dependencies if needed.
@@ -31,7 +33,6 @@ the `nodejs` server.
 
           ```py
           def postServer(self, id_img, url, encoded_image, dataset, path):
-
           ```
 
           Then, a code is done in order to compute the ranking. You can put here your
@@ -39,23 +40,22 @@ the `nodejs` server.
           it can be seen in the following example.
 
           ```json
-              [
-                {
-                    "IdSequence": "0",
-                    "Image": "paris_general_002391"
-                },
-                {
-                    "IdSequence": "1",
-                    "Image": "paris_eiffel_000128"
-                },
-                     ...
+          [
+            {
+                "IdSequence": "0",
+                "Image": "paris_general_002391"
+            },
+            {
+                "IdSequence": "1",
+                "Image": "paris_eiffel_000128"
+            },
+                 ...
 
-                {
-                    "IdSequence": "5011",
-                    "Image": "paris_invalides_000541"
-                }
-              ]
-
+            {
+                "IdSequence": "5011",
+                "Image": "paris_invalides_000541"
+            }
+          ]
           ```
           > Upper and lower case matters in this structures.
 

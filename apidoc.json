@@ -1,7 +1,7 @@
 {
   "name": "python-test-server",
   "version": "0.0.0",
-  "description": "A server to use with the `node_server` and the `react-visualization-tool-CBIR` repositories.",
+  "description": "A server to use with the node_server and the react-visualization-tool-CBIR repositories.",
   "title": "Python test server of an CBIR system",
   "url": "https://github.com/paulagd/node-server.git",
   "header": {
