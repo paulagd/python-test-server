@@ -54,7 +54,7 @@ class MainServer(object):
         # default action
 
         if dataset.lower() == 'groups':
-            path_random_ranking = "groups/rand_qimList_groups.txt"
+            path_random_ranking = "random_lists/rand_qimList_groups.txt"
             ranking = []
 
         with open("./lists_test/"+path_random_ranking, 'r') as data:
@@ -111,19 +111,29 @@ class MainServer(object):
     def postServer(self, id_img, url, encoded_image, dataset, path):
 
         if dataset.lower() == 'groups':
-            path_random_ranking = "groups/rand_qimList_groups.txt"
-            ranking = []
+            path_random_ranking = "random_lists/rand_qimList_groups.txt"
 
-            with open("./lists_test/"+path_random_ranking, 'r') as data:
-                for i, item in enumerate(data):
-                    ranking.append({"Image": item.strip().split('.')[0].decode("utf-8"), "IdSequence": i})  #starting id in 1
+        elif dataset.lower() == 'oxford':
+            path_random_ranking = "random_lists/rand_qimList_oxford.txt"
 
-            print('---------- RANKIN SENT ---------')
-            return ranking
+        elif dataset.lower() == 'paris':
+            path_random_ranking = "random_lists/rand_qimList_paris.txt"
+
+        elif dataset.lower() == 'instre':
+            path_random_ranking = "random_lists/rand_qimList_instre.txt"
 
         else:
             raise ValueError('There is no qimList generated for this dataset.')
             return ValueError('There is no qimList generated for this dataset.')
+
+        ranking = []
+
+        with open("./lists_test/"+path_random_ranking, 'r') as data:
+            for i, item in enumerate(data):
+                ranking.append({"Image": item.strip().split('.')[0].decode("utf-8"), "IdSequence": i})  #starting id in 1
+
+        print('---------- RANKIN SENT ---------')
+        return ranking
 
 
 logging.basicConfig()
