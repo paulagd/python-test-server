@@ -1,6 +1,7 @@
 /lists_test
-/search_engine/*
-!/search_engine/src
+
+/search_engine/data
+
 /oxford
 /paris
 /ranks

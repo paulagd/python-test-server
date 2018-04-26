@@ -1,5 +1,5 @@
 import os
-MAIN_PATH = '/Users/paulagomezduran/Desktop/TFG_NO_GUARDAT/python-server/search_engine'
+MAIN_PATH = '/Users/paulagomezduran/Desktop/TFG_NO_GUARDAT/python-test-server/search_engine'
 #MAIN_PATH = '/home/eva/2017/paula_thesis/python-server/search_engine'
 
 # download the 'data googledrive and locate the folder in search_engine/data'
@@ -11,12 +11,13 @@ PATH_LOAD_DATASET = os.path.join(MAIN_PATH, 'data/datasets')
 
 PATH_IMLIST=os.path.join(MAIN_PATH, 'imlists/')
 
-# set the path to the images in your computer
-PATH_IMAGES = {
-    'oxford': '/media/eva/Eva Data/Datasets/Oxford_Buildings/images/',
-    'paris': '/media/eva/Eva Data/Datasets/Paris_dataset/images/',
-    'instre': '/media/eva/Eva Data/Datasets/Instre/'
-}
+# CHANGED
+# # set the path to the images in your computer
+# PATH_IMAGES = {
+#     'oxford': '/media/eva/Eva Data/Datasets/Oxford_Buildings/images/',
+#     'paris': '/media/eva/Eva Data/Datasets/Paris_dataset/images/',
+#     'instre': '/media/eva/Eva Data/Datasets/Instre/'
+# }
 
 # set by default in search_engine/data
 PATH_RANKINGS = os.path.join(MAIN_PATH, 'ranks')
