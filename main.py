@@ -3,7 +3,7 @@ import requests
 import logging
 import sys, json
 
-from search_engine.src.CPUrank_generator import *
+# from search_engine.src.CPUrank_generator import *
 
 class MainServer(object):
 
@@ -41,7 +41,7 @@ class MainServer(object):
                                "positive": ["paris_general_001620.jpg", "paris_eiffel_000128.jpg"],
                                "negative": ["paris_general_000144.jpg", "paris_general_002444.jpg"]
                 },
-              "dataset": "paris",
+              "dataset": "groups",
               "mode": "a",
               "url": null,
               "encoded_image": null,
@@ -52,49 +52,32 @@ class MainServer(object):
 
     def postFeedback_And_Update(self, id_img, url, encoded_image, dataset, path, similar_list, mode):
         # default action
-        if dataset.lower() == 'instre' and (url is None):
-            # id_img = path.split(".")[0]
-            id_img = id_img.replace("__", "/").split('.')[0]
 
+        if dataset.lower() == 'groups':
+            path_random_ranking = "groups/rand_qimList_groups.txt"
+            ranking = []
 
-        if 'unicode' in str(type(encoded_image)):
-            url = None
-
-        model_dic = {}
-        if dataset not in model_dic.keys():
-            params = {
-                'network': 'vgg16',
-                'query_expansion':False,
-                'max_dim': 340,
-                'layer': 'conv5_1',
-                'dataset':str(dataset).lower(),
-                'weighting':None,
-                'mode_query': 'crop',
-                'top_n': 5012
-            }
-            model_dic[dataset] = BLCF(params)
+        with open("./lists_test/"+path_random_ranking, 'r') as data:
+            for i, item in enumerate(data):
+                ranking.append({"Image": item.strip().split('.')[0].decode("utf-8") , "IdSequence": i})  #starting id in 1
 
         # mode query expansion
         if mode == 'q':
-            # ensure id_imq is one of the queries
-            result = model_dic[dataset].get_rank_image( id_img, url, encoded_image, similar_list, True  )
-            json_file = result['json']
+            result = {'json': {}, 'initial': 0, 'final':0 }
 
-            with open(json_file) as data_file:
-               data = json.load(data_file)
+            result['json'] = ranking
+            result['initial'] = 0.8
+            result['final'] = 0.9
 
-            result['json'] = data
             return result
 
         # mode annotations
         elif mode == 'a':
-            json_file = model_dic[dataset].do_relevance_feedback( id_img, similar_list )
-            with open(json_file) as data_file:
-               data = json.load(data_file)
 
             result = {'json': {}, 'success': False }
-            result['json'] = data
+            result['json'] = ranking
             result['success'] = True
+
             return result
 
     """
@@ -119,7 +102,7 @@ class MainServer(object):
 
     @apiExample {json} Request
           {
-              "dataset":"paris",
+              "dataset":"groups",
               "url": null,
               "encoded_image":null,
               "path": null
@@ -133,42 +116,11 @@ class MainServer(object):
 
             with open("./lists_test/"+path_random_ranking, 'r') as data:
                 for i, item in enumerate(data):
-                    ranking.append({"Image": item.strip().split('.')[0], "IdSequence": i})  #starting id in 1
+                    ranking.append({"Image": item.strip().split('.')[0].decode("utf-8"), "IdSequence": i})  #starting id in 1
 
             print('---------- RANKIN SENT ---------')
             return ranking
 
-        elif (dataset.lower() == 'oxford' or dataset.lower() == 'paris' or dataset.lower() == 'instre') :
-
-            if dataset.lower() == 'instre' and (url is None):
-                id_img = id_img.replace("__", "/").split('.')[0]
-
-            if 'unicode' in str(type(encoded_image)):
-                url = None
-
-            model_dic = {}
-            # init model if not yet loaded
-            if dataset not in model_dic.keys():
-                params = {
-                    'network': 'vgg16',
-                    'query_expansion':False,
-                    'max_dim': 340,
-                    'layer': 'conv5_1',
-                    'dataset':str(dataset).lower(),
-                    'weighting':None,
-                    'mode_query': 'crop',
-                    'top_n': 5012
-                }
-                model_dic[dataset] = BLCF(params)
-
-            json_file = model_dic[dataset].get_rank_image( id_img, url, encoded_image )
-            #print '------------->', json_file
-            with open(json_file) as data_file:
-                data = json.load(data_file)
-
-            # print data
-            print('---------- RANKIN SENT ---------')
-            return data
         else:
             raise ValueError('There is no qimList generated for this dataset.')
             return ValueError('There is no qimList generated for this dataset.')
